@@ -4,10 +4,10 @@ public class LinkedListDeque<T>{
 
     public  class IntNode{
         public T item;
-        public IntNode prev;
-        public IntNode next;
+        private IntNode prev;
+        private IntNode next;
 
-        public IntNode(T x, IntNode n, IntNode p){
+        private IntNode(T x, IntNode n, IntNode p){
             item = x;
             prev = p;
             next = n;
@@ -42,10 +42,6 @@ public class LinkedListDeque<T>{
 
         size += 1;
         sentinel.next = new IntNode(x,sentinel.next,sentinel);
-//        System.out.println(sentinel.next.item);
-//        if(last == sentinel){
-//            last = sentinel.next;
-//        }
         if(sentinel.prev == sentinel)
             sentinel.prev = sentinel.next.next;
 
@@ -74,7 +70,7 @@ public class LinkedListDeque<T>{
         return p.item;
     }
 
-    public IntNode getRecursive(int x){
+    private IntNode getRecursive(int x){
         if(x == 0)
             return sentinel.next;
         else{
@@ -119,7 +115,6 @@ public class LinkedListDeque<T>{
     public boolean isEmpty(){
         if(size == 0)
             return true;
-        else
             return false;
     }
 
@@ -129,23 +124,23 @@ public class LinkedListDeque<T>{
         }
     }
 
-    public static void main(String[] args) {
-        LinkedListDeque<Integer> list = new LinkedListDeque<>();
-//        list.addFirst(1);
-//        list.addFirst(2);
-        list.addLast(3);
-//        list.add(6);
-//        list.add(7);
-//        list.add(8);
-//        list.removeFirst();
-//        list.removeLast();
-//        list.addFirst(1);
-        System.out.println("List size is " + list.size);
-//        for(int i = 0; i < list.size; i++){
-//            System.out.println(list.get(i));
-//        }
-        list.printDeque();
-    }
+//    public static void main(String[] args) {
+//        LinkedListDeque<Integer> list = new LinkedListDeque<>();
+////        list.addFirst(1);
+////        list.addFirst(2);
+//        list.addLast(3);
+////        list.add(6);
+////        list.add(7);
+////        list.add(8);
+////        list.removeFirst();
+////        list.removeLast();
+////        list.addFirst(1);
+//        System.out.println("List size is " + list.size);
+////        for(int i = 0; i < list.size; i++){
+////            System.out.println(list.get(i));
+////        }
+//        list.printDeque();
+//    }
 
 
 

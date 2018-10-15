@@ -1,11 +1,10 @@
 
-
 public class ArrayDeque<T>{
-    T[] item;
-    int size;
-    int nextFirst;
-    int nextLast;
-    public final int REFACTOR = 2;
+    private T[] item;
+    private int size;
+    private int nextFirst;
+    private int nextLast;
+    private final int REFACTOR = 2;
 
     public ArrayDeque(){
         item = (T[]) new Object[8];
@@ -23,7 +22,7 @@ public class ArrayDeque<T>{
         size = 1;
     }
 
-    public void Lresize(int size){
+    private void Lresize(int size){
         T[] n = (T[]) new Object[size];
         if(Math.abs(nextLast - nextFirst) == 1 ) {
             int min = Math.min(nextFirst,nextLast);
@@ -37,17 +36,16 @@ public class ArrayDeque<T>{
         item = n;
     }
 
-    public double usageFactor(){
-        double usagefactor = (double)size / item.length;
+    private double usageFactor(){
 //        System.out.println("size "+size +" length "+item.length);
-        return usagefactor;
+        return (double)size / item.length;
     }
 
-    public void resize(int size){
+    private void resize(int size){
 //        System.out.println("resize");
         T[] n = (T[]) new Object[size];
         if(nextFirst < nextLast ) {
-            System.out.println("nextFirst "+ nextFirst + " n.length "+ n.length);
+//            System.out.println("nextFirst "+ nextFirst + " n.length "+ n.length);
             System.arraycopy(item, nextFirst + 1, n, 4, this.size);
             nextLast = nextLast - (nextFirst - 3);
             nextFirst = 3;
@@ -56,9 +54,9 @@ public class ArrayDeque<T>{
         else{
             System.arraycopy(item,0,n,0,nextLast);
             System.arraycopy(item, nextFirst + 1, n, size - (this.size - nextLast),this.size - nextLast);
-            System.out.println("nextFirst "+ nextFirst+" nextLast "+ nextLast+ " length "+item.length+" size "+size);
+//            System.out.println("nextFirst "+ nextFirst+" nextLast "+ nextLast+ " length "+item.length+" size "+size);
             nextFirst = size - (this.size - nextLast) - 1;
-            System.out.println("nextFirst "+ nextFirst+" nextLast "+ nextLast+ " length "+item.length+" size "+size);
+//            System.out.println("nextFirst "+ nextFirst+" nextLast "+ nextLast+ " length "+item.length+" size "+size);
         }
 //        System.out.println("nextFirst "+ nextFirst+" nextLast "+ nextLast+ " length "+item.length+" size "+size);
 
@@ -66,7 +64,7 @@ public class ArrayDeque<T>{
         item = n;
     }
 
-    public void Fresize(int size){
+    private void Fresize(int size){
         T[] n = (T[]) new Object[size];
         if(nextLast - nextFirst == 1 ) {
                 System.arraycopy(item,0,n,0,nextFirst + 1);
@@ -112,7 +110,7 @@ public class ArrayDeque<T>{
         nextLast--;
         if(nextLast == -1)
             nextLast = item.length - 1;
-        System.out.println("usageFactor  "+usageFactor());
+//        System.out.println("usageFactor  "+usageFactor());
         if(usageFactor() <= 0.25 && item.length > 16) {
 //            size = size /2;
             resize(item.length / 2);
@@ -122,7 +120,7 @@ public class ArrayDeque<T>{
     }
 
     public T removeFirst(){
-        System.out.println("nextFirst "+ nextFirst);
+//        System.out.println("nextFirst "+ nextFirst);
         T remove = item[nextFirst + 1];
         size -= 1;
         item[nextFirst + 1] = null;
@@ -131,7 +129,7 @@ public class ArrayDeque<T>{
             nextFirst = -1;
         if(usageFactor() <= 0.25 && item.length > 16) {
 //            size = size /2;
-            System.out.println(usageFactor());
+//            System.out.println(usageFactor());
             resize(item.length / 2);
         }
         return remove;
@@ -185,25 +183,24 @@ public class ArrayDeque<T>{
     public boolean isEmpty(){
         if(size == 0)
             return true;
-        else
             return false;
     }
 
-    public static void main(String[] args) {
-        ArrayDeque<Integer> aD = new ArrayDeque<>();
-
-        for(int i = 1; i <= 17; i++){
-            aD.addLast(i);
-        }
-
-        for(int i = 0; i < 10; i++){
-            aD.removeLast();
-        }
-        aD.printDeque();
-
-        System.out.println();
-
-    }
+//    public static void main(String[] args) {
+//        ArrayDeque<Integer> aD = new ArrayDeque<>();
+//
+//        for(int i = 1; i <= 17; i++){
+//            aD.addLast(i);
+//        }
+//
+//        for(int i = 0; i < 10; i++){
+//            aD.removeLast();
+//        }
+//        aD.printDeque();
+//
+//        System.out.println();
+//
+//    }
 
 
 
