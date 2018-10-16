@@ -77,7 +77,7 @@ public class LinkedListDeque<T> {
         }
     }
 
-    public T getRecursize(int x) {
+    public T getRecursive(int x) {
         return Recursive(x).item;
 
     }
