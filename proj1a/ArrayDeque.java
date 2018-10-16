@@ -1,19 +1,46 @@
-
-public class ArrayDeque<T>{
+/**
+ * @author Sherry Nie
+ * @version 1.2
+ */
+public class ArrayDeque<T> {
+    /**
+     * A generic array to store items.
+     */
     private T[] item;
+    /**
+     * The size of the array.
+     */
     private int size;
+    /**
+     * Pointers for front.
+     */
     private int nextFirst;
+    /**
+     * Pointers for end.
+     */
     private int nextLast;
-    private final int REFACTOR = 2;
+    /**
+     * Refactor to resize the array so that it is
+     * proportional to the number of items.
+     */
+    private final int refactor = 2;
 
-    public ArrayDeque(){
+    /**
+     * Empty constructor.
+     */
+    public ArrayDeque() {
         item = (T[]) new Object[8];
         size = 0;
         nextFirst = 4;
         nextLast = 5;
     }
 
-    public ArrayDeque(T x){
+    /**
+     * Constructor of initial item.
+     *
+     * @param x initial item of the array
+     */
+    public ArrayDeque(T x) {
         item = (T[]) new Object[8];
         nextFirst = 4;
         nextLast = 5;
@@ -22,136 +49,167 @@ public class ArrayDeque<T>{
         size = 1;
     }
 
-    private void Lresize(int size){
-        T[] n = (T[]) new Object[size];
-        if(Math.abs(nextLast - nextFirst) == 1 ) {
-            int min = Math.min(nextFirst,nextLast);
-            int max = Math.max(nextFirst,nextLast);
+    /**
+     * Enlarge the array when size exceeds the item length by adding firstly.
+     *
+     * @param csize current size
+     */
+    private void lresize(int csize) {
+        T[] n = (T[]) new Object[csize];
+        if (Math.abs(nextLast - nextFirst) == 1) {
+            int min = Math.min(nextFirst, nextLast);
+            int max = Math.max(nextFirst, nextLast);
 
-            System.arraycopy(item,0,n,item.length,min + 1);
-                System.arraycopy(item, max, n, max, item.length - max);
-                nextLast = item.length + min + 1;
+            System.arraycopy(item, 0, n, item.length, min + 1);
+            System.arraycopy(item, max, n, max, item.length - max);
+            nextLast = item.length + min + 1;
 
         }
+
         item = n;
     }
 
-    private double usageFactor(){
-//        System.out.println("size "+size +" length "+item.length);
-        return (double)size / item.length;
+    /**
+     * Calculate the usage factor of array.
+     *
+     * @return the usage factor of current array
+     */
+    private double usageFactor() {
+        return (double) size / item.length;
     }
 
-    private void resize(int size){
-//        System.out.println("resize");
-        T[] n = (T[]) new Object[size];
-        if(nextFirst < nextLast ) {
-//            System.out.println("nextFirst "+ nextFirst + " n.length "+ n.length);
+    /**
+     * Shorten the array when the usage factor is less than 0.25.
+     *
+     * @param nsize new size of array to be set
+     */
+    private void resize(int nsize) {
+        T[] n = (T[]) new Object[nsize];
+        if (nextFirst < nextLast) {
             System.arraycopy(item, nextFirst + 1, n, 4, this.size);
             nextLast = nextLast - (nextFirst - 3);
             nextFirst = 3;
+        } else {
+            System.arraycopy(item, 0, n, 0, nextLast);
+            System.arraycopy(item, nextFirst + 1, n,
+                    nsize - (this.size - nextLast), this.size - nextLast);
+            nextFirst = nsize - (this.size - nextLast) - 1;
         }
 
-        else{
-            System.arraycopy(item,0,n,0,nextLast);
-            System.arraycopy(item, nextFirst + 1, n, size - (this.size - nextLast),this.size - nextLast);
-//            System.out.println("nextFirst "+ nextFirst+" nextLast "+ nextLast+ " length "+item.length+" size "+size);
-            nextFirst = size - (this.size - nextLast) - 1;
-//            System.out.println("nextFirst "+ nextFirst+" nextLast "+ nextLast+ " length "+item.length+" size "+size);
-        }
-//        System.out.println("nextFirst "+ nextFirst+" nextLast "+ nextLast+ " length "+item.length+" size "+size);
-
-//        System.out.println("nextFirst "+ nextFirst);
         item = n;
     }
 
-    private void Fresize(int size){
-        T[] n = (T[]) new Object[size];
-        if(nextLast - nextFirst == 1 ) {
-                System.arraycopy(item,0,n,0,nextFirst + 1);
-                System.arraycopy(item, nextLast, n, size - (item.length - nextLast), item.length - nextLast);
-                nextFirst = size - (item.length - nextLast) - 1;
-        }
-        else{
-            System.arraycopy(item,0,n,0,item.length);
+    /**
+     * Enlarge the array when size exceeds the item length by adding lastly.
+     * @param nsize new array size
+     */
+    private void fresize(int nsize) {
+        T[] n = (T[]) new Object[nsize];
+        if (nextLast - nextFirst == 1) {
+            System.arraycopy(item, 0, n, 0, nextFirst + 1);
+            System.arraycopy(item, nextLast, n,
+                    nsize - (item.length - nextLast), item.length - nextLast);
+            nextFirst = nsize - (item.length - nextLast) - 1;
+        } else {
+            System.arraycopy(item, 0, n, 0, item.length);
         }
         item = n;
     }
 
-    public void addLast(T x){
-        if(item.length == size) {
-            Lresize(size * REFACTOR);
+    /**
+     * Add item from the end.
+     * @param x item to be added
+     */
+    public void addLast(T x) {
+        if (item.length == size) {
+            lresize(size * refactor);
         }
 
-        if(nextLast == item.length)
+        if (nextLast == item.length) {
             nextLast = 0;
+        }
 
         item[nextLast] = x;
         nextLast++;
         size += 1;
     }
 
-    public void addFirst(T x){
-        if(item.length == size) {
-            Fresize(size * REFACTOR);
+    /**
+     * Add item from the front.
+     * @param x item to be added
+     */
+    public void addFirst(T x) {
+        if (item.length == size) {
+            fresize(size * refactor);
         }
 
-        if(nextFirst == -1)
+        if (nextFirst == -1) {
             nextFirst = item.length - 1;
+        }
 
         item[nextFirst] = x;
         nextFirst--;
         size += 1;
     }
 
-    public T removeLast(){
+    /**
+     * Remove the item from the end.
+     * @return item removed
+     */
+    public T removeLast() {
+        if (nextLast == 0) {
+            nextLast = item.length;
+        }
         T remove = item[nextLast - 1];
         size -= 1;
         item[nextLast - 1] = null;
         nextLast--;
-        if(nextLast == -1)
-            nextLast = item.length - 1;
-//        System.out.println("usageFactor  "+usageFactor());
-        if(usageFactor() <= 0.25 && item.length > 16) {
-//            size = size /2;
+
+        if (usageFactor() <= 0.25 && item.length > 16) {
             resize(item.length / 2);
         }
 
         return remove;
     }
 
-    public T removeFirst(){
-//        System.out.println("nextFirst "+ nextFirst);
+    /**
+     * Remove the item from the front.
+     * @return item removed
+     */
+    public T removeFirst() {
+        if (nextFirst == item.length - 1) {
+            nextFirst = -1;
+        }
         T remove = item[nextFirst + 1];
         size -= 1;
         item[nextFirst + 1] = null;
         nextFirst++;
-        if(nextFirst == item.length - 1 )
-            nextFirst = -1;
-        if(usageFactor() <= 0.25 && item.length > 16) {
-//            size = size /2;
-//            System.out.println(usageFactor());
+
+        if (usageFactor() <= 0.25 && item.length > 16) {
             resize(item.length / 2);
         }
         return remove;
     }
 
-    public T[] rearrange(){
+    /**
+     * A Help method to create a new array with correct adding sequence.
+     * @return array with right sequence
+     */
+    public T[] rearrange() {
         T[] output = (T[]) new Object[item.length];
         int f = 0;
-        if(nextFirst >= nextLast || nextLast - nextFirst == 1){
-            for(int i = nextFirst + 1; i <= item.length - 1; i++) {
+        if (nextFirst >= nextLast || nextLast - nextFirst == 1) {
+            for (int i = nextFirst + 1; i <= item.length - 1; i++) {
                 output[f] = item[i];
                 f++;
             }
 
-            for(int i = 0; i <= nextLast - 1; i++){
+            for (int i = 0; i <= nextLast - 1; i++) {
                 output[f] = item[i];
                 f++;
             }
-        }
-        else{
-            for(int i = nextFirst + 1; i <= nextLast - 1; i++){
-//                System.out.println("nextFirst         "+ nextFirst+ " item.length "+ item.length);
+        } else {
+            for (int i = nextFirst + 1; i <= nextLast - 1; i++) {
                 output[f] = item[i];
                 f++;
             }
@@ -160,48 +218,45 @@ public class ArrayDeque<T>{
         return output;
     }
 
-    public void printDeque(){
-        for(int i = 0; i <rearrange().length; i++) {
-            if (rearrange()[i] != null)
+    /**
+     * Print out the array.
+     */
+    public void printDeque() {
+        for (int i = 0; i < rearrange().length; i++) {
+            if (rearrange()[i] != null) {
                 System.out.print(rearrange()[i] + " ");
+            }
         }
         System.out.println();
     }
 
-    public T get(int x){
+    /**
+     * Get the item of corresponding index.
+     * @param x item index
+     * @return item
+     */
+    public T get(int x) {
         return rearrange()[x];
     }
 
-    public T getreal (int x){
-        return item[x];
-    }
 
-    public int size(){
+    /**
+     * Size of the array.
+     * @return number of occupied item
+     */
+    public int size() {
         return size;
     }
 
-    public boolean isEmpty(){
-        if(size == 0)
+    /**
+     * Decide whether the array is empty or not.
+     * @return true if array is empty
+     */
+    public boolean isEmpty() {
+        if (size == 0) {
             return true;
-            return false;
+        }
+        return false;
     }
-
-//    public static void main(String[] args) {
-//        ArrayDeque<Integer> aD = new ArrayDeque<>();
-//
-//        for(int i = 1; i <= 17; i++){
-//            aD.addLast(i);
-//        }
-//
-//        for(int i = 0; i < 10; i++){
-//            aD.removeLast();
-//        }
-//        aD.printDeque();
-//
-//        System.out.println();
-//
-//    }
-
-
 
 }
