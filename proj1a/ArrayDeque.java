@@ -35,19 +35,6 @@ public class ArrayDeque<T> {
         nextLast = 5;
     }
 
-    /**
-     * Constructor of initial item.
-     *
-     * @param x initial item of the array
-     */
-    public ArrayDeque(T x) {
-        item = (T[]) new Object[8];
-        nextFirst = 4;
-        nextLast = 5;
-        item[nextFirst] = x;
-        nextFirst--;
-        size = 1;
-    }
 
     /**
      * Enlarge the array when size exceeds the item length by adding firstly.
@@ -64,6 +51,9 @@ public class ArrayDeque<T> {
             System.arraycopy(item, max, n, max, item.length - max);
             nextLast = item.length + min + 1;
 
+        }
+        else{
+            System.arraycopy(item, 0, n, 0, item.length);
         }
 
         item = n;
@@ -161,6 +151,9 @@ public class ArrayDeque<T> {
             nextLast = item.length;
         }
         T remove = item[nextLast - 1];
+        if(isEmpty()){
+            return null;
+        }
         size -= 1;
         item[nextLast - 1] = null;
         nextLast--;
@@ -181,6 +174,9 @@ public class ArrayDeque<T> {
             nextFirst = -1;
         }
         T remove = item[nextFirst + 1];
+        if(isEmpty()){
+            return null;
+        }
         size -= 1;
         item[nextFirst + 1] = null;
         nextFirst++;
@@ -195,7 +191,7 @@ public class ArrayDeque<T> {
      * A Help method to create a new array with correct adding sequence.
      * @return array with right sequence
      */
-    public T[] rearrange() {
+    private T[] rearrange() {
         T[] output = (T[]) new Object[item.length];
         int f = 0;
         if (nextFirst >= nextLast || nextLast - nextFirst == 1) {
