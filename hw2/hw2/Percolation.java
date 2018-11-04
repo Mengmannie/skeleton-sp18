@@ -53,11 +53,11 @@ public class Percolation {
             int p = position(row, col);
 
             if (row == 0) {
-                WU.union(p, N);
+                WU.union(p, N * N);
             }
 
             if (row == N - 1) {
-                WU.union(p, N + 1);
+                WU.union(p, N * N + 1);
             }
 
             if ((col + 1) < N) {
@@ -118,7 +118,7 @@ public class Percolation {
         }
 
         int p = position(row, col);
-        if (WU.connected(p, N)) {
+        if (WU.connected(p, N * N)) {
             return true;
         }
         return false;
@@ -146,7 +146,7 @@ public class Percolation {
     }
 
     public boolean percolates() {
-        if (WU.connected(N, N + 1)) return true;
+        if (WU.connected(N * N, N * N+ 1)) return true;
         return false;
     }
 
