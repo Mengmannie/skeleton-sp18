@@ -56,7 +56,7 @@ public class Percolation {
 
             if (row == 0) {
                 WU.union(p, N * N);
-                WUU.connected(p, N * N);
+                WUU.union(p, N * N);
             }
 
             if (row == N - 1) {
