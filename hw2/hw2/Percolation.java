@@ -5,6 +5,7 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 public class Percolation {
     private int[][] grid;
     private WeightedQuickUnionUF WU;
+    private WeightedQuickUnionUF WUU;
     private int N;
     private int number;
 
@@ -19,6 +20,7 @@ public class Percolation {
         }
         grid = new int[N][N];
         WU = new WeightedQuickUnionUF(N * N + 2);
+        WUU = new WeightedQuickUnionUF(N * N + 1);
         this.N = N;
         number = 0;
     }
@@ -54,6 +56,7 @@ public class Percolation {
 
             if (row == 0) {
                 WU.union(p, N * N);
+                WUU.connected(p, N * N);
             }
 
             if (row == N - 1) {
@@ -64,6 +67,7 @@ public class Percolation {
                 if (grid[row][col + 1] == 1) {
                     int q = position(row, col + 1);
                     WU.union(p, q);
+                    WUU.union(p, q);
                 }
             }
 
@@ -71,6 +75,7 @@ public class Percolation {
                 if (grid[row][col - 1] == 1) {
                     int q = position(row, col - 1);
                     WU.union(p, q);
+                    WUU.union(p, q);
                 }
             }
 
@@ -78,6 +83,7 @@ public class Percolation {
                 if (grid[row + 1][col] == 1) {
                     int q = position(row + 1, col);
                     WU.union(p, q);
+                    WUU.union(p, q);
                 }
             }
 
@@ -85,6 +91,7 @@ public class Percolation {
                 if (grid[row - 1][col] == 1) {
                     int q = position(row - 1, col);
                     WU.union(p, q);
+                    WUU.union(p, q);
                 }
             }
         }
@@ -118,7 +125,7 @@ public class Percolation {
         }
 
         int p = position(row, col);
-        if (WU.connected(p, N * N)) {
+        if (WUU.connected(p, N * N)) {
             return true;
         }
         return false;
