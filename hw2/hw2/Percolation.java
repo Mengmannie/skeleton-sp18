@@ -3,10 +3,10 @@ package hw2;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
-    int[][] grid;
-    WeightedQuickUnionUF WU;
-    int N;
-    int number;
+    private int[][] grid;
+    private WeightedQuickUnionUF WU;
+    private int N;
+    private int number;
     /**
      * create N by N grid, with all sites initially blocked (blocked '0'; open '1')
      * @param N grid sizes
@@ -21,25 +21,17 @@ public class Percolation {
         number = 0;
     }
 
-    public int position (int row, int col) {
+    private int position (int row, int col) {
         return row * N + col;
     }
 
-    public int[] coordinates (int position) {
+    private int[] coordinates (int position) {
         int[] coordinates = new int[2];
         coordinates[0] = position / N;
         coordinates[1] = position % N;
         return coordinates;
     }
 
-//    public void initial () {
-//        for (int i = 0; i < N; i++) {
-//            for (int j = 0; j < N; j++) {
-//                grid[i][j] = 0;
-//            }
-//        }
-//        number = 0;
-//    }
 
     /**
      * open the site (row, col) if it is not open
@@ -141,14 +133,6 @@ public class Percolation {
     }
 
     public static void main(String[] args) {
-//        Percolation percolation = new Percolation(4);
-//        percolation.open(0,1);
-//        percolation.open(1,1);
-//        percolation.open(1,2);
-//        percolation.open(2,1);
-//        percolation.open(2,2);
-//        percolation.open(3,2);
-//        System.out.println("system is ");
     }
 
 }
