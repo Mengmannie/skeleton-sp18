@@ -107,9 +107,11 @@ public class Percolation {
         if (isOpen(row, col)) {
             int p = position(row, col);
             for (int i = 0; i < N; i++) {
-                int q = position(0,i);
-                if (WU.connected(p, q)) {
-                    return true;
+                if (isOpen(0,i)) {
+                    int q = position(0,i);
+                    if (WU.connected(p, q)) {
+                        return true;
+                    }
                 }
             }
         }
@@ -126,8 +128,11 @@ public class Percolation {
 
     public boolean percolates () {
         for (int i = 0; i < N; i++) {
-            if (isFull(N - 1,i))
-                return true;
+            if (isOpen(N-1, i)) {
+                if (isFull(N-1, i)) {
+                    return true;
+                }
+            }
         }
         return false;
     }
