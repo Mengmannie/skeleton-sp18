@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class PercolationTest {
-    Percolation percolation = new Percolation(100);
+    Percolation percolation = new Percolation(4);
 
     @Test
     public void OpenTest (){

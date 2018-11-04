@@ -18,7 +18,7 @@ public class Percolation {
             throw new IllegalArgumentException();
         }
         grid = new int[N][N];
-        WU = new WeightedQuickUnionUF(N * N);
+        WU = new WeightedQuickUnionUF(N * N + 2);
         this.N = N;
         number = 0;
     }
@@ -51,6 +51,14 @@ public class Percolation {
             grid[row][col] = 1;
             number++;
             int p = position(row, col);
+
+            if (row == 0) {
+                WU.union(p, N);
+            }
+
+            if (row == N - 1) {
+                WU.union(p, N + 1);
+            }
 
             if ((col + 1) < N) {
                 if (grid[row][col + 1] == 1) {
@@ -108,18 +116,24 @@ public class Percolation {
         if (row < 0 || row > N || col < 0 || col > N) {
             throw new IndexOutOfBoundsException();
         }
-        if (isOpen(row, col)) {
-            int p = position(row, col);
-            for (int i = 0; i < N; i++) {
-                if (isOpen(0, i)) {
-                    int q = position(0, i);
-                    if (WU.connected(p, q)) {
-                        return true;
-                    }
-                }
-            }
+
+        int p = position(row, col);
+        if (WU.connected(p, N)) {
+            return true;
         }
         return false;
+//        if (isOpen(row, col)) {
+//            int p = position(row, col);
+//            for (int i = 0; i < N; i++) {
+//                if (isOpen(0, i)) {
+//                    int q = position(0, i);
+//                    if (WU.connected(p, q)) {
+//                        return true;
+//                    }
+//                }
+//            }
+//        }
+//        return false;
     }
 
     /**
@@ -132,13 +146,7 @@ public class Percolation {
     }
 
     public boolean percolates() {
-        for (int i = 0; i < N; i++) {
-            if (isOpen(N - 1, i)) {
-                if (isFull(N - 1, i)) {
-                    return true;
-                }
-            }
-        }
+        if (WU.connected(N, N + 1)) return true;
         return false;
     }
 
