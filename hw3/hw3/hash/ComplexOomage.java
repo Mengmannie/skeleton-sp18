@@ -16,6 +16,7 @@ public class ComplexOomage implements Oomage {
             total = total * 256;
             total = total + x;
         }
+        System.out.println("hascode is " + total);
         return total;
     }
 
@@ -72,16 +73,22 @@ public class ComplexOomage implements Oomage {
     }
 
     public static ComplexOomage randomComplexOomage() {
-        int N = StdRandom.uniform(1, 10);
+        int N = StdRandom.uniform(7, 10);
         ArrayList<Integer> params = new ArrayList<>(N);
         for (int i = 0; i < N; i += 1) {
-            params.add(StdRandom.uniform(0, 255));
+            if (i == 0)
+                params.add(1);
+            else
+                params.add(0);
         }
         return new ComplexOomage(params);
     }
 
     public static void main(String[] args) {
         System.out.println("Drawing 4 random complex Oomages.");
+        randomComplexOomage().hashCode();
+        randomComplexOomage().hashCode();
+        randomComplexOomage().hashCode();
         randomComplexOomage().draw(0.25, 0.25, 1.5);
         randomComplexOomage().draw(0.75, 0.75, 1.5);
         randomComplexOomage().draw(0.25, 0.75, 1.5);
