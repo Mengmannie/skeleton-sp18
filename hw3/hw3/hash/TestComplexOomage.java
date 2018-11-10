@@ -40,15 +40,11 @@ public class TestComplexOomage {
     @Test
     public void testWithDeadlyParams() {
         List<Oomage> deadlyList = new ArrayList<>();
-        List<Integer> param1 = new ArrayList<>();
-        param1.add(1); param1.add(2); param1.add(3); param1.add(4);
-        deadlyList.add(new ComplexOomage(param1));
-        List<Integer> param2 = new ArrayList<>();
-        param2.add(9); param2.add(2); param2.add(7); param2.add(4);
-        deadlyList.add(new ComplexOomage(param2));
-        List<Integer> param3 = new ArrayList<>();
-        param3.add(4); param3.add(5); param3.add(8); param3.add(4);
-        deadlyList.add(new ComplexOomage(param3));
+        int N = 10000;
+
+        for (int i = 0; i < N; i += 1) {
+            deadlyList.add(ComplexOomage.randomComplexOomage());
+        }
 
         // Your code here.
 
